@@ -1,10 +1,13 @@
 export default function taskBlock(trueOrFalse) {
-  let task = false;
-  let task2 = true;
+  const task = false;
+  const task2 = true;
 
   if (trueOrFalse) {
-    task = true; // No need to redefine using 'let' inside the block
-    task2 = false; // No need to redefine using 'let' inside the block
+    const task = true; // No need to redefine using 'let' inside the block
+    const task2 = false; // No need to redefine using 'let' inside the block
+    if (task && task2) {
+      return [task, task2];
+    }
   }
 
   return [task, task2];
