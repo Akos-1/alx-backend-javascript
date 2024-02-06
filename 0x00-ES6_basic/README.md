@@ -1,1 +1,1 @@
-More on Emacs Scripting
+more on emacs scrippting
