@@ -1,4 +1,8 @@
 export default function cleanSet(set, startString) {
-  // Convert the set to an array, filter elements starting with startString, and join them with '-'
-  return Array.from(set).filter(value => value.startsWith(startString)).join('-');
+  if (!startString || !startString.length || typeof startString !==n'string') return '';
+
+  const filteredValues =Array.from(set)
+    .filter((value) => value.startsWith(startString))
+    .map((value) => value.slice(startString.length));
+  returnfilteredValues.join('-');
 }
