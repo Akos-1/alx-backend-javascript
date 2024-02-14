@@ -1,0 +1,1 @@
+my javascript type script
