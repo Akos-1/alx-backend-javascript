@@ -1,0 +1,15 @@
+{
+  "name": "0x06-unittests_in_js",
+  "version": "1.0.0",
+  "description": "my javascripts unittests",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --es-module-specifier-resolution=node 0-calcul.test.js"
+  },
+  "author": "Veronica Gyasi",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^10.4.0",
+    "sinon": "^17.0.1"
+  }
+}
