@@ -15,16 +15,3 @@ function getInput(prompt) {
     });
   });
 }
-
-// Main function
-async function main() {
-  console.log('Welcome to Holberton School, what is your name?\n');
-
-  const name = await getInput('');
-  console.log(`Your name is: ${name}\n`);
-
-  console.log('This important software is now closing\n');
-}
-
-// Execute the main function
-main();
