@@ -1,20 +1,20 @@
 {
   "name": "9-api",
   "version": "1.0.0",
-  "description": "API testing",
+  "description": "API for handling payment carts",
   "main": "api.js",
   "scripts": {
-    "test": "mocha --timeout 10000 api.test.js"
+    "start": "node api.js",
+    "test": "mocha --timeout 5000 api.test.js"
   },
   "author": "Veronica Gyasi",
   "license": "MIT",
   "dependencies": {
-    "chai": "^4.3.4",
-    "express": "^4.17.1",
-    "mocha": "^10.4.0",
-    "request": "^2.88.2"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "sinon": "^17.0.1"
+    "chai": "^4.2.0",
+    "mocha": "^10.4.0",
+    "supertest": "^6.1.3"
   }
 }

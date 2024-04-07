@@ -1,30 +1,33 @@
+const { expect } = require('chai');
 const request = require('request');
-const expect = require('chai').expect;
-const server = require('./api');
 
-const BASE_URL = 'http://localhost:7865';
-
-describe('Cart page', () => {
-  before(() => {
-    server;
-  });
-
-  after(() => {
-    server.close();
-  });
-
-  it('should return correct status code when :id is a number', (done) => {
-    const cartId = 12;
-    request.get(`${BASE_URL}/cart/${cartId}`, (error, response, body) => {
-      expect(response.statusCode).to.equal(200);
+describe('GET /available_payments', () => {
+  it('returns the correct payment methods', (done) => {
+    request.get('http://localhost:7865/available_payments', (error, response, body) => {
+      const expectedResponse = {
+        payment_methods: {
+          credit_cards: true,
+          paypal: false
+        }
+      };
+      expect(JSON.parse(body)).to.deep.equal(expectedResponse);
       done();
     });
   });
+});
 
-  it('should return correct status code when :id is NOT a number (=> 404)', (done) => {
-    const invalidCartId = 'hello';
-    request.get(`${BASE_URL}/cart/${invalidCartId}`, (error, response, body) => {
-      expect(response.statusCode).to.equal(404);
+describe('POST /login', () => {
+  it('returns the correct welcome message', (done) => {
+    const options = {
+      url: 'http://localhost:7865/login',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userName: 'Betty' })
+    };
+    request(options, (error, response, body) => {
+      expect(body).to.equal('Welcome Betty');
       done();
     });
   });
