@@ -1,58 +1,38 @@
-// src/2-read_file.js
-
 const fs = require('fs');
 
-function countStudents(path) {
+function countStudents(fileName) {
+  const students = {};
+  const fields = {};
+  let length = 0;
   try {
-    // Read the database file synchronously
-    const data = fs.readFileSync(path, 'utf8');
-
-    // Split data into lines
-    const lines = data.trim().split('\n');
-
-    // Initialize counts for each field
-    const counts = {};
-
-    // Loop through each line
-    lines.forEach(line => {
-      // Split line into fields
-      const fields = line.split(',');
-
-      // Extract first name and field
-      const firstName = fields[0];
-      const field = fields[fields.length - 1];
-
-      // Ignore empty lines
-      if (firstName.trim() !== '') {
-        // Increment count for field
-        counts[field] = counts[field] ? counts[field] + 1 : 1;
+    const content = fs.readFileSync(fileName, 'utf-8');
+    const lines = content.toString().split('\n');
+    for (let i = 0; i < lines.length; i += 1) {
+      if (lines[i]) {
+        length += 1;
+        const field = lines[i].toString().split(',');
+        if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+          students[field[3]].push(field[0]);
+        } else {
+          students[field[3]] = [field[0]];
+        }
+        if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+          fields[field[3]] += 1;
+        } else {
+          fields[field[3]] = 1;
+        }
       }
-    });
-
-    // Log number of students in each field
-    console.log('Number of students:');
-    for (const [field, count] of Object.entries(counts)) {
-      console.log(`Number of students in ${field}: ${count}. List: ${getFirstNames(lines, field)}`);
+    }
+    const l = length - 1;
+    console.log(`Number of students: ${l}`);
+    for (const [key, value] of Object.entries(fields)) {
+      if (key !== 'field') {
+        console.log(`Number of students in ${key}: ${value}. List: ${students[key].join(', ')}`);
+      }
     }
   } catch (error) {
-    // Handle file read error
-    console.error('Cannot load the database');
+    throw Error('Cannot load the database');
   }
 }
 
-// Helper function to get first names for a specific field
-function getFirstNames(lines, field) {
-  const firstNames = [];
-  lines.forEach(line => {
-    const fields = line.split(',');
-    const firstName = fields[0];
-    const currentField = fields[fields.length - 1];
-    if (currentField === field && firstName.trim() !== '') {
-      firstNames.push(firstName);
-    }
-  });
-  return firstNames.join(', ');
-}
-
-// Call countStudents function with the path to the database file
-countStudents('database.csv');
+module.exports = countStudents;
