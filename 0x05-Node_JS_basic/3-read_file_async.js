@@ -1,57 +1,42 @@
-// 3-read_file_async.js
+const { readFile } = require('fs');
 
-const fs = require('fs');
-
-function countStudents(path) {
+function countStudents(fileName) {
+  const students = {};
+  const fields = {};
+  let length = 0;
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (err, data) => {
-      if (err) {
-        reject(new Error('Cannot load the database'));
+    readFile(fileName, (error, data) => {
+      if (error) {
+        reject(Error('Cannot load the database'));
       } else {
-        const lines = data.trim().split('\n');
-        const counts = {};
-
-        lines.forEach(line => {
-          const fields = line.split(',');
-          const firstName = fields[0].trim();
-          const field = fields[fields.length - 1].trim();
-
-          if (firstName !== '') {
-            counts[field] = counts[field] ? counts[field] + 1 : 1;
+        const lines = data.toString().split('\n');
+        for (let i = 0; i < lines.length; i += 1) {
+          if (lines[i]) {
+            length += 1;
+            const field = lines[i].toString().split(',');
+            if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+              students[field[3]].push(field[0]);
+            } else {
+              students[field[3]] = [field[0]];
+            }
+            if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+              fields[field[3]] += 1;
+            } else {
+              fields[field[3]] = 1;
+            }
           }
-        });
-
-        console.log('Number of students:');
-        for (const [field, count] of Object.entries(counts)) {
-          console.log(`Number of students in ${field}: ${count}. List: ${getFirstNames(lines, field)}`);
         }
-
-        resolve();
+        const l = length - 1;
+        console.log(`Number of students: ${l}`);
+        for (const [key, value] of Object.entries(fields)) {
+          if (key !== 'field') {
+            console.log(`Number of students in ${key}: ${value}. List: ${students[key].join(', ')}`);
+          }
+        }
+        resolve(data);
       }
     });
   });
 }
-
-function getFirstNames(lines, field) {
-  const firstNames = [];
-  lines.forEach(line => {
-    const fields = line.split(',');
-    const firstName = fields[0].trim();
-    const currentField = fields[fields.length - 1].trim();
-    if (currentField === field && firstName !== '') {
-      firstNames.push(firstName);
-    }
-  });
-  return firstNames.join(', ');
-}
-
-// Example usage:
-countStudents('database.csv')
-  .then(() => {
-    console.log('File read successfully.');
-  })
-  .catch(error => {
-    console.error(error.message);
-  });
 
 module.exports = countStudents;
