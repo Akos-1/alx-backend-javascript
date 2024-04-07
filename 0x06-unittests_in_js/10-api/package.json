@@ -1,7 +1,7 @@
 {
   "name": "10-api",
   "version": "1.0.0",
-  "description": "API project with new endpoints",
+  "description": "API project with endpoints for available payments and user login",
   "main": "api.js",
   "scripts": {
     "test": "mocha"
@@ -9,9 +9,10 @@
   "author": "Veronica Gyasi",
   "license": "MIT",
   "dependencies": {
-    "chai": "^4.3.4",
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "express": "^4.17.1",
     "mocha": "^10.4.0",
-    "supertest": "^6.1.3"
+    "supertest": "^6.2.0"
   }
 }

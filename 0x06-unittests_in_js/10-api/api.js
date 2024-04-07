@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
-const PORT = 7865;
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
+
+// GET /available_payments endpoint
 app.get('/available_payments', (req, res) => {
   res.json({
     payment_methods: {
@@ -11,15 +14,15 @@ app.get('/available_payments', (req, res) => {
   });
 });
 
-app.use(express.json());
-
+// POST /login endpoint
 app.post('/login', (req, res) => {
   const { userName } = req.body;
-  res.status(200).send(`Welcome ${userName}`);
+  res.send(`Welcome ${userName}`);
 });
 
-const server = app.listen(PORT, () => {
+const PORT = 7865;
+app.listen(PORT, () => {
   console.log(`API available on localhost port ${PORT}`);
 });
 
-module.exports = server;
+module.exports = app;
